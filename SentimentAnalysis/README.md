@@ -43,7 +43,25 @@ complaints$Sub.product <- ifelse(complaints$Sub.product %in% c("Electronic Benef
 
 1. I first made a wordcloud of the emotion associated with the words each sentiment. Results came from nrc lexicon. Positive and Negative were about the same in terms of number but when you include the other words (most being negative), negativity does exceed positive which is expected.
 ![image](https://github.com/glxne/DATA332.GG/assets/159860384/665497f3-1672-409b-85db-2a0964d05691)
+```
+words <- sentiment_counts_nrc$sentiment
+counts <- sentiment_counts_nrc$n
+word_counts <- data.frame(word = words, freq = counts)
+wordcloud(words = word_counts$word, freq = word_counts$freq, min.freq = 1,
+          max.words = 100, random.order = FALSE, colors = brewer.pal(8, "Dark2"))
+```
 
+2. I created a bar graph using ggplot2 to show the frequency of the Sentiments
+![image](https://github.com/glxne/DATA332.GG/assets/159860384/f14ca676-c86f-43b5-839c-db696f63a8a5)
+```
+ggplot(sentiment_counts_nrc, aes(x = sentiment, y = n)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  labs(title = "Sentiment Analysis",
+       x = "Sentiment",
+       y = "Count") +
+  theme_minimal()
+```
 
+3. 
 
 
