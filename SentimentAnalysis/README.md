@@ -39,4 +39,10 @@ complaints$Sub.product <- ifelse(complaints$Sub.product %in% c("Electronic Benef
 
 
 
+# Charts
+
+![image](https://github.com/glxne/DATA332.GG/assets/159860384/665497f3-1672-409b-85db-2a0964d05691)
+
+
+
 
