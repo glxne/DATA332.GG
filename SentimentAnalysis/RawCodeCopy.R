@@ -87,20 +87,13 @@ merged_data_bing <- merge(sentiment_counts_bing, complaints_processed[, c("Consu
 merged_data_nrc <- merge(sentiment_counts_nrc, complaints_processed[, c("Product")], by.x = "sentiment", by.y = "Consumer.complaint.narrative", all.x = TRUE)
 
 # Plotting sentiments
-ggplot(sentiment_counts_nrc, aes(x = Product, y = n, fill = sentiment)) +
-  geom_bar(stat = "identity", position = "dodge") +
-  labs(title = "Sentiment Analysis (NRC) by Product",
-       x = "Product",
+ggplot(sentiment_counts_nrc, aes(x = sentiment, y = n)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  labs(title = "Sentiment Analysis",
+       x = "Sentiment",
        y = "Count") +
   theme_minimal()
 
-
-ggplot(merged_data_bing, aes(x = Product, y = n, fill = sentiment)) +
-  geom_bar(stat = "identity", position = "stack") +
-  labs(title = "Sentiment Analysis (Bing) by Product",
-       x = "Product",
-       y = "Count") +
-  theme_minimal()
 
 words <- sentiment_counts_nrc$sentiment
 counts <- sentiment_counts_nrc$n
@@ -110,4 +103,23 @@ word_counts <- data.frame(word = words, freq = counts)
 wordcloud(words = word_counts$word, freq = word_counts$freq, min.freq = 1,
           max.words = 100, random.order = FALSE, colors = brewer.pal(8, "Dark2"))
 
-wordcloud(words = complaints_tokens$word, min.freq = 5, random.order = FALSE)
+filtered_words <- complaints_tokens$word[!(complaints_tokens$word %in% c("natext"))]
+
+merged_data <- merge(sentiment_counts_nrc, complaints_processed, by.x = "sentiment", by.y = "Consumer.complaint.narrative", all = TRUE)
+
+ggplot(merged_data, aes(x = Product, fill = sentiment)) +
+  geom_bar() +
+  labs(title = "Sentiment Analysis by Product",
+       x = "Product",
+       fill = "Sentiment") +
+  theme_minimal()
+
+aggregated_data <- aggregate(n ~ Product + sentiment, data = merged_data, FUN = sum)
+
+ggplot(aggregated_data, aes(x = Product, y = n, fill = sentiment)) +
+  geom_bar(stat = "identity", position = "stack") +
+  labs(title = "Sentiment Analysis by Product",
+       x = "Product",
+       y = "Count",
+       fill = "Sentiment") +
+  theme_minimal()
