@@ -41,7 +41,7 @@ complaints$Sub.product <- ifelse(complaints$Sub.product %in% c("Electronic Benef
 
 # Charts
 
-1. I first made a wordcloud of the emotion associated with the words each sentiment. Results came from nrc lexicon
+1. I first made a wordcloud of the emotion associated with the words each sentiment. Results came from nrc lexicon. Positive and Negative were about the same in terms of number but when you include the other words (most being negative), negativity does exceed positive which is expected.
 ![image](https://github.com/glxne/DATA332.GG/assets/159860384/665497f3-1672-409b-85db-2a0964d05691)
 
 
