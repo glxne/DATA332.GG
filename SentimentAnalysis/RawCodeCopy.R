@@ -7,6 +7,7 @@ library(tidyr)
 library(readxl)
 library(ggplot2)
 library(tidyverse)
+library(wordcloud)
 
 setwd("C:/Users/Gdot7/OneDrive/Documents/RScripts/ConsumerComplaint")
 
@@ -64,24 +65,49 @@ complaints_processed <- complaints %>%
   mutate(Consumer.complaint.narrative = tolower(Consumer.complaint.narrative)) %>%
   mutate(Consumer.complaint.narrative = gsub("[[:punct:]]", "", Consumer.complaint.narrative))
 
-# Tokenize text
 complaints_tokens <- complaints_processed %>%
   unnest_tokens(word, Consumer.complaint.narrative)
 
-# Load lexicons
 data("nrc")
 data("bing")
 
-# Perform sentiment analysis using "nrc"
 sentiments_nrc <- inner_join(complaints_tokens, get_sentiments("nrc"), by = "word")
 
-# Count sentiment occurrences
 sentiment_counts_nrc <- sentiments_nrc %>%
   count(sentiment)
 
-# Perform sentiment analysis using "bing"
 sentiments_bing <- inner_join(complaints_tokens, get_sentiments("bing"), by = "word")
 
-# Count sentiment occurrences
 sentiment_counts_bing <- sentiments_bing %>%
   count(sentiment)
+
+# Merging Products used and sentiment
+merged_data_nrc <- merge(sentiment_counts_nrc, complaints_processed[, c("Consumer.complaint.narrative", "Product")], by.x = "sentiment", by.y = "Consumer.complaint.narrative", all.x = TRUE)
+merged_data_bing <- merge(sentiment_counts_bing, complaints_processed[, c("Consumer.complaint.narrative", "Product")], by.x = "sentiment", by.y = "Consumer.complaint.narrative", all.x = TRUE)
+merged_data_nrc <- merge(sentiment_counts_nrc, complaints_processed[, c("Product")], by.x = "sentiment", by.y = "Consumer.complaint.narrative", all.x = TRUE)
+
+# Plotting sentiments
+ggplot(sentiment_counts_nrc, aes(x = Product, y = n, fill = sentiment)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Sentiment Analysis (NRC) by Product",
+       x = "Product",
+       y = "Count") +
+  theme_minimal()
+
+
+ggplot(merged_data_bing, aes(x = Product, y = n, fill = sentiment)) +
+  geom_bar(stat = "identity", position = "stack") +
+  labs(title = "Sentiment Analysis (Bing) by Product",
+       x = "Product",
+       y = "Count") +
+  theme_minimal()
+
+words <- sentiment_counts_nrc$sentiment
+counts <- sentiment_counts_nrc$n
+
+word_counts <- data.frame(word = words, freq = counts)
+
+wordcloud(words = word_counts$word, freq = word_counts$freq, min.freq = 1,
+          max.words = 100, random.order = FALSE, colors = brewer.pal(8, "Dark2"))
+
+wordcloud(words = complaints_tokens$word, min.freq = 5, random.order = FALSE)
