@@ -19,7 +19,7 @@ complaints$Product <- ifelse(complaints$Product %in% c("Consumer Loan", "Payday 
 ```
 
 2. Did the same with the Sub.product column
-   - More to clean than the product row
+   - More to clean than the product column
 ```
 ggplot(complaints, aes(x = Sub.product)) +
   geom_bar(fill = "skyblue", color = "black") +
