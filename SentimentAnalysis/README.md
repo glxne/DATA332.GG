@@ -1,7 +1,7 @@
 # Sentiment Analysis - Gianni G. <span style="font-size:larger;">✅</span>
 
 # Overview  <span style="font-size:15;">
-In this project I analyzed consumer complaint data using text mining and sentiment analysis. I created 3 charts using the data to show information I thought to be signficant.
+In this project I analyzed consumer complaint data using text mining and sentiment analysis. I created 3 charts using the data to show information I thought to be signficant. I will be including a raw file of my R script that I used which will include everything. I will also include the original .csv file used.
 
 # Data Cleaning Process
 1. I started by cleaning the Product column
