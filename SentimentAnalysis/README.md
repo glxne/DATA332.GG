@@ -37,7 +37,7 @@ complaints$Sub.product <- ifelse(complaints$Sub.product %in% c("Federal student 
 complaints$Sub.product <- ifelse(complaints$Sub.product %in% c("Electronic Benefit Transfer / EBT card" , "General purpose card" , "Payroll card", "Transit card","Other special purpose card","ID prepaid card","Gift or merchant card"), "Specialty Card", complaints$Sub.product)
 ```
 
-- More cleaning was when I implemented the sentiments into the date which is under the 3rd chart
+- More cleaning was when I implemented the sentiments into the date which is under the 3rd chart and 5th chart
 
 # Charts
 
