@@ -112,7 +112,15 @@ sentiments_nrc2$category <- ifelse(sentiments_nrc2$sentiment %in% c("anger", "di
 ```
 *Sidenote: I decided to include anticipation under the "negative" connatation because I believe that is the right place to put it in this context. I also excluded "surprise" because I couldn't decide to put it under negative or positive as it applies to both equally. It is shown as NA in the data and as seen below:
 ![image](https://github.com/glxne/DATA332.GG/assets/159860384/7cb7dd13-9c9b-4882-99e1-1e64171f7a79)
-
+```
+ggplot(sentiments_nrc2, aes(x = Product, fill = category)) +
+  geom_bar(position = "stack") +
+  labs(title = "Sentiment Distribution by Product",
+       x = "Product",
+       y = "Count",
+       fill = "Sentiment Category") +
+  theme_minimal()
+```
 - More negative than positive sentiments is expected but I am surprised there isn't more negative than positive
 
 
