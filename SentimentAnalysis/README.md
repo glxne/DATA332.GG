@@ -2,7 +2,7 @@
 
 # Overview  <span style="font-size:15;">
 In this project I analyzed consumer complaint data using text mining and sentiment analysis. I created 3 charts using the data to show information I thought to be signficant. I will be including a raw file of my R script that I used which will include everything. I will also include the original .csv file used.
-*Note: I was not able to upload the data .csv file to my repo because it exceeds 25MB
+*Note: I was not able to upload the data .csv file to my repo because it exceeds 25MB.
 # Data Cleaning Process
 1. I started by cleaning the Product column
    - I first did a ggplot of the data so I can easily find overlapping values that can fall under the same category. Wasn't too bad, I decided to put all the different types of loans under "Loans"
