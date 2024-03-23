@@ -77,6 +77,20 @@ ggplot(data = as.data.frame(pivot_table)) +
 4. I also created a segmented bar graph to show each of the feelings in each Product that was being complained
 ![image](https://github.com/glxne/DATA332.GG/assets/159860384/5299ce66-fc22-4b9f-8600-6b02701e6cc1)
 *5e+05 being 500,000, etc.
+```
+sentiment_counts <- sentiments_nrc %>%
+  group_by(Product, sentiment) %>%
+  summarise(count = n()) %>%
+  arrange(Product)
+ggplot(data = sentiment_counts, aes(x = Product, y = count, fill = sentiment)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Sentiment Distribution by Product",
+       x = "Product",
+       y = "Count",
+       fill = "Sentiment") +
+  theme_minimal()
+```
+Mortgage seems to have the biggest as it is the most reported Product. One thing I found interesting was that each bar has a somewhat equal size in each sentiment compared to the overall size of the bar. This goes for every bar (for the most part).
 
 # Finding a way to make the data more clean/tidy
 - I realized that many of the smaller sentiment words that were used can contribute to a bigger word - Positive or Negative. I decided to change most of the sentiments to be either positive or negative
