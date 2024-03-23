@@ -121,7 +121,41 @@ ggplot(sentiments_nrc2, aes(x = Product, fill = category)) +
        fill = "Sentiment Category") +
   theme_minimal()
 ```
-- More negative than positive sentiments is expected but I am surprised there isn't more negative than positive
+- Slightly more negative than positive sentiments is expected but I am surprised at how close they are
+
+5. Lastly, I wanted to see if there is a correlation between issue and product so first I cleaned the data (somewhat) just to make the heat map more readable:
+```
+sentiments_nrc$Issue <- ifelse(sentiments_nrc$Issue %in% c("Overlimit fee", "Charged fees or interest I didn't expect", "Other fee", "Balance transfer fee", "Late fee", "Cash advance fee", "Unexpected/Other fees", "Fee", "Excessive fees"),
+                          "Fees", sentiments_nrc$Issue)
+sentiments_nrc$Issue <- ifelse(sentiments_nrc$Issue %in% c("Can't contact lender", "Lender repossessed or sold the vehicle", "Lender damaged or destroyed vehicle", "Lender sold the property", "Dealing with my lender or servicer"),
+                               "Lender related", sentiments_nrc$Issue)
+sentiments_nrc$Issue <- ifelse(sentiments_nrc$Issue %in% c("Billing disputes", "Billing statement"),
+                               "Billing", sentiments_nrc$Issue)
+sentiments_nrc$Issue <- ifelse(sentiments_nrc$Issue %in% c("Closing/Cancelling account", "Account opening, closing, or management", "Account terms and changes", "Can't stop charges to bank account", "Managing, opening, or closing account", "Sale of account"),
+                               "Account related", sentiments_nrc$Issue)
+sentiments_nrc$Issue <- ifelse(sentiments_nrc$Issue %in% c("Loan servicing, payments, escrow account", "Received a loan I didn't apply for", "Loan modification, collection, foreclosure", "Managing the loan or lease", "Taking out the loan or lease", "Shopping for a loan or lease", "Applied for loan/did not receive money", "Can't repay my loan"),
+                               "Loan", sentiments_nrc$Issue)
+sentiments_nrc$Issue <- ifelse(sentiments_nrc$Issue %in% c("Credit decision / Underwriting","Unable to get credit report/credit score", "Credit determination", "Credit line increase/decrease", "Credit monitoring or identity protection", "Credit reporting company's investigation", "Shopping for a line of credit", "Improper use of my credit report", "Incorrect information on credit report", "Managing the line of credit"),
+                               "Credit", sentiments_nrc$Issue)
+sentiments_nrc$Issue <- ifelse(sentiments_nrc$Issue %in% c("Customer service/Customer relations", "Customer service / Customer relations"),
+                               "Customer service", sentiments_nrc$Issue)
+```
+- I then created a pivot table of the two values:
+```
+pt_issueproduct <- table(sentiments_nrc$Issue, sentiments_nrc$Product)
+```
+I then made a heat map of the data:
+![image](https://github.com/glxne/DATA332.GG/assets/159860384/44f81d2a-72ea-4dd8-b6c8-ba5e9b329026)
+```
+ggplot(data = as.data.frame(pt_issueproduct), aes(x = Var2, y = Var1, fill = Freq)) +
+  geom_tile() +
+  scale_fill_gradient(low = "white", high = "blue") +
+  labs(title = "Correlation Between Issue and Product",
+       x = "Product",
+       y = "Issue")
+```
+
+
 
 
 
