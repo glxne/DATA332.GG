@@ -154,7 +154,7 @@ ggplot(data = as.data.frame(pt_issueproduct), aes(x = Var2, y = Var1, fill = Fre
        x = "Product",
        y = "Issue")
 ```
-
+Based on this heat map, it appear that most of the problems are Lender related, especially with Mortgage. I expect it to be more frequent with mortgage because it is the "Product" people have the most to say about, negative and positive, and it seems to be the one people mostly have problems with, especially with Lenders. So it's likely the Lenders are the biggest contribution to this issue with mortgage.
 
 
 
