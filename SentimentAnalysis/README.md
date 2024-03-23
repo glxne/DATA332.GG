@@ -37,7 +37,7 @@ complaints$Sub.product <- ifelse(complaints$Sub.product %in% c("Federal student 
 complaints$Sub.product <- ifelse(complaints$Sub.product %in% c("Electronic Benefit Transfer / EBT card" , "General purpose card" , "Payroll card", "Transit card","Other special purpose card","ID prepaid card","Gift or merchant card"), "Specialty Card", complaints$Sub.product)
 ```
 
-
+- More cleaning was when I implemented the sentiments into the date which is under the 3rd chart
 
 # Charts
 
@@ -62,6 +62,25 @@ ggplot(sentiment_counts_nrc, aes(x = sentiment, y = n)) +
   theme_minimal()
 ```
 
-3. 
+3. I created a pivot table of the sentiment values and product to see if there was a correlation as they were easily accessible to me with the current dataframe I was using. It also made it easier to make a heat map to chart the data.
+![image](https://github.com/glxne/DATA332.GG/assets/159860384/911d2a55-719c-49c0-90b4-4bb8ba1000c0)
+```
+pivot_table <- table(sentiments_nrc$sentiment, sentiments_nrc$Product)
+
+ggplot(data = as.data.frame(pivot_table)) +
+  geom_tile(aes(x = Var2, y = Var1, fill = Freq)) +
+  scale_fill_gradient(low = "white", high = "blue") +
+  labs(title = "Sentiment-Product Correlation Heat Map",
+       x = "Product",
+       y = "Sentiment")
+```
+4. I also created a segmented bar graph to show each of the feelings in each Product that was being complained
+![image](https://github.com/glxne/DATA332.GG/assets/159860384/5299ce66-fc22-4b9f-8600-6b02701e6cc1)
+*5e+05 being 500,000, etc.
+
+# Finding a way to make the data more clean/tidy
+- I realized that many of the smaller sentiment words that were used can contribute to a bigger word - Positive or Negative. I decided to change most of the sentiments to be either positive or negative
+
+  
 
 
