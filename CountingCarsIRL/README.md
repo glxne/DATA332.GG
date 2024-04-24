@@ -6,4 +6,4 @@
   Another thing I noticed is that the highest speeds recorded has Illinois plates. There's two important factors to consider, the data was recorded in IL and only a couple groups collected plates. With these factors I still believe the data shows significance due to the multiple outliers with high speeds with Illinois plates. At this point I believe they aren't outliers and they assist the narrative that people from Illinois tend to speed more.
 
 # Conclusion
-  I believe that 
+  Originally I believed that with everyone's data combined we would be able to make assumptions which is the case but the correlations are small. I believe that more data that is evenly distributed would be able to provide us with more solid conclusions and correlations.
