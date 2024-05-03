@@ -24,4 +24,20 @@ merged_data$Date.Time <- mdy_hms(merged_data$Date.Time)
 merged_data$Day <- day(merged_data$Date.Time)
 merged_data$Month <- month(merged_data$Date.Time, label = TRUE)
 merged_data$Year <- year(merged_data$Date.Time)
+
+merged_data$Date.Time <- format(merged_data$Date.Time, "%H:%M:%S")
+
+colnames(merged_data)[colnames(merged_data) == "Date.Time"] <- "Time"
+```
+**3. Made a copy of data frame to manipulate to make a pivot table to display trips each hour by month
+
+```r
+adj_tripbyhour <- merged_data
+
+adj_tripbyhour <- adj_tripbyhour %>%
+  mutate(hour = as.integer(substr(Time, 1, 2)))
+
+tripbyhour_pt <- adj_tripbyhour %>%
+  group_by(hour) %>%
+  summarize(trips_count = n())
 ```
