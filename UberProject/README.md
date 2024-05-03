@@ -17,3 +17,11 @@ dfseptember <- read.csv("uber-raw-data-sep14.csv")
 
 merged_data <- bind_rows(dfapril, dfaugust, dfjuly, dfjune, dfmay, dfseptember)
 ```
+**2. Fixed the date and time format and put variables like week, day, month, and year into seperate columns to prepare for analysis. This left just the time in the column
+
+```r
+merged_data$Date.Time <- mdy_hms(merged_data$Date.Time)
+merged_data$Day <- day(merged_data$Date.Time)
+merged_data$Month <- month(merged_data$Date.Time, label = TRUE)
+merged_data$Year <- year(merged_data$Date.Time)
+```
