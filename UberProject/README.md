@@ -213,23 +213,13 @@ for (m in 1:length(months)) {
 
 **5. Lastly I created a chart of the prediction data similar to the original using ggplot()
 ```r
-predicted_table <- data.frame(
-  Month = character(), 
-  Day_of_Week = character(),  
-  Predicted_Count = numeric(),  
-  stringsAsFactors = FALSE  
-)
-
-for (m in 1:length(months)) {
-  for (d in 1:length(days_of_week)) {
-    new_data <- data.frame(
-      Month = factor(months[m], levels = levels(nov_prediction$Month)),
-      Day_of_Week = factor(days_of_week[d], levels = levels(nov_prediction$Day_of_Week))
-    )
-    predicted_count <- predict(model, newdata = new_data)
-    predicted_table <- rbind(predicted_table, data.frame(Month = months[m], Day_of_Week = days_of_week[d], Predicted_Count = predicted_count))
-  }
-}
+ggplot(predicted_table, aes(x = Day_of_Week, y = Predicted_Count, fill = Month)) +
+  geom_bar(stat = "identity", position = position_dodge()) +
+  labs(title = "Predicted Trip Counts by Day of the Week for Each Month for the Next Year",
+       x = "Day of the Week",
+       y = "Predicted Trip Count",
+       fill = "Month") +
+  theme_minimal()
 ```
 
 ### Analysis of charts can be found on shiny app
