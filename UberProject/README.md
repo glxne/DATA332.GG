@@ -157,6 +157,81 @@ leaflet() %>%
   addTiles() %>%
   addHeatmap(data = heat_data4, radius = 10, blur = 15)
 ```
+### Creating Prediction Model
+**Description: I decided to build a predictive model for the amount of trips every weekday for each month, but for the year of 2015. I used an existing table that I used to analyze the same idea but for the existing data.
+
+**1. After making a copy of the table so I can manipulate it, I made sure the day of the week and the month columns were encoded correctly
+```r
+nov_prediction$Month <- as.factor(nov_prediction$Month)
+nov_prediction$Day_of_Week <- as.factor(nov_prediction$Day_of_Week)
+```
+
+**2. I then used linear regression for my model selection to keep things simple
+```r
+model <- lm(Trip_Count ~ Month + Day_of_Week, data = nov_prediction)
+```
+
+**3. I then made a prediction for each day of the week, for each month. This prediction is based on the linear regression model ran on the existing data for the year of 2014.
+```r
+months <- levels(nov_prediction$Month)
+days_of_week <- levels(nov_prediction$Day_of_Week)
+
+months <- levels(nov_prediction$Month)
+days_of_week <- levels(nov_prediction$Day_of_Week)
+
+predicted_counts <- array(NA, dim = c(length(months), length(days_of_week)))
+
+for (m in 1:length(months)) {
+  for (d in 1:length(days_of_week)) {
+    new_data <- data.frame(Month = factor(months[m], levels = levels(nov_prediction$Month)),
+                           Day_of_Week = factor(days_of_week[d], levels = levels(nov_prediction$Day_of_Week)))
+    predicted_counts[m, d] <- predict(model, newdata = new_data)
+  }
+}
+```
+
+**4. I created a data frame and put the prediction data into it.
+```r
+predicted_table <- data.frame(
+  Month = character(), 
+  Day_of_Week = character(),  
+  Predicted_Count = numeric(),  
+  stringsAsFactors = FALSE  
+)
+
+for (m in 1:length(months)) {
+  for (d in 1:length(days_of_week)) {
+    new_data <- data.frame(
+      Month = factor(months[m], levels = levels(nov_prediction$Month)),
+      Day_of_Week = factor(days_of_week[d], levels = levels(nov_prediction$Day_of_Week))
+    )
+    predicted_count <- predict(model, newdata = new_data)
+    predicted_table <- rbind(predicted_table, data.frame(Month = months[m], Day_of_Week = days_of_week[d], Predicted_Count = predicted_count))
+  }
+}
+```
+
+**5. Lastly I created a chart of the prediction data similar to the original using ggplot()
+```r
+predicted_table <- data.frame(
+  Month = character(), 
+  Day_of_Week = character(),  
+  Predicted_Count = numeric(),  
+  stringsAsFactors = FALSE  
+)
+
+for (m in 1:length(months)) {
+  for (d in 1:length(days_of_week)) {
+    new_data <- data.frame(
+      Month = factor(months[m], levels = levels(nov_prediction$Month)),
+      Day_of_Week = factor(days_of_week[d], levels = levels(nov_prediction$Day_of_Week))
+    )
+    predicted_count <- predict(model, newdata = new_data)
+    predicted_table <- rbind(predicted_table, data.frame(Month = months[m], Day_of_Week = days_of_week[d], Predicted_Count = predicted_count))
+  }
+}
+```
+
 ### Analysis of charts can be found on shiny app
 
 
