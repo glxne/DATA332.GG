@@ -5,10 +5,7 @@ library(tidyverse)
 library(ggplot2)
 library(readxl)
 
-setwd("C:/Users/Gdot7/OneDrive/Documents/RScripts/FinalProject")
-
 CountryIQ <- read.csv("avgIQpercountry.csv", fileEncoding = "UTF-8")
-incarceration <- read.csv("incarceration.csv", fileEncoding = "UTF-8")
 countrydata <- read.csv("world-data-2023.csv", fileEncoding = "UTF-8")
 
 countrydata <- countrydata %>%
@@ -123,7 +120,11 @@ ggplot(avg_cpi_by_continent, aes(x = Continent, y = CPI)) +
 # Nobel Prizes compared to mean years of schooling
 filterednobel <- countrycombined[countrycombined$Nobel.Prices > 0, ]
 
+
 countrycombined <- countrycombined %>%
+  rename(Mean_Years_of_Schooling = "Mean.years.of.schooling...2021")
+
+filterednobel <- filterednobel %>%
   rename(Mean_Years_of_Schooling = "Mean.years.of.schooling...2021")
 
 ggplot(filterednobel, aes(x = Nobel.Prices, y = Mean_Years_of_Schooling, label = Country)) +
@@ -154,6 +155,30 @@ textnum5 <- "In relation to the last graph, I created another scatter plot of th
 ui<-fluidPage( 
   
   tabsetPanel(
+    tabPanel("Title Page",
+             fluidRow(
+               column(12, h1("DATA-332 Final Project - Country Data Analysis")),
+               column(12, p("Our final project examines several datasets to gain insights about educational and intellectual
+indicators in various countries. It starts by reading and processing data on the number of Nobel
+Prizes, average years of schooling, literacy rates, and average IQ across continents. The script
+uses data manipulation techniques to clean and prepare the datasets for visualization. It then
+uses ggplot2, a popular R tool, to generate scatter plots and bar charts that depict the
+relationships between the variables. The created visualizations include charts depicting the
+relationship between the number of Nobel Prizes and average years of schooling, literacy rates
+across countries, and average IQ by continent.
+The visualizations indicate crucial findings: countries with longer average years of schooling
+have more Nobel Prize winners, emphasizing the value of education in nurturing intellectual
+prowess. The literacy rate map shows which countries have the highest and lowest literacy
+rates, showing global differences in education. Finally, the average IQ by continent map
+illustrates differences in cognitive measurements between areas. These findings demonstrate
+the importance of education and literacy in intellectual development and achievement on a
+worldwide scale. ")),
+               column(12, p("Use the tabs above to navigate through the different charts and datasets.")),
+               column(12, p("Authors: Gianni G. & Sam M.")),
+               column(12, p("Date:5/19/2024 "))
+             )
+    ),
+             
     
     tabPanel("chart1",
              fluidRow(
